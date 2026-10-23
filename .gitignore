@@ -1,0 +1,17 @@
+# Virtual environment
+.venv/
+
+# Generated datasets (regenerate with scripts/generate_mock_kepler.py)
+data/*
+!data/.gitkeep
+
+# Generated model artifacts
+models/*
+!models/.gitkeep
+
+# Evaluation outputs
+results/*
+!results/.gitkeep
+
+# Python bytecode
+__pycache__/

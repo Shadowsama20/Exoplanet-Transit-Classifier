@@ -10,7 +10,7 @@ Features (named after the Kepler KOI table columns):
 Target:
     label  1 = CONFIRMED, 0 = FALSE POSITIVE
 
-Output: data/kepler_data.csv
+Output: data/mock_kepler_data.csv
 """
 
 from pathlib import Path
@@ -22,7 +22,7 @@ N_SAMPLES = 5000
 MISSING_RATE = 0.02  # fraction of values blanked out per feature, to mimic real catalogs
 RANDOM_SEED = 42
 
-OUTPUT_PATH = Path(__file__).resolve().parent.parent / "data" / "kepler_data.csv"
+OUTPUT_PATH = Path(__file__).resolve().parent.parent / "data" / "mock_kepler_data.csv"
 
 
 def generate(n: int, rng: np.random.Generator) -> pd.DataFrame:

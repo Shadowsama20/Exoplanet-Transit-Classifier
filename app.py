@@ -24,11 +24,11 @@ LABELS = {1: "CONFIRMED", 0: "FALSE POSITIVE"}
 
 # Input ranges and defaults per feature: (label, min, max, step, default, unit).
 FEATURE_SPECS = {
-    "koi_period": ("Orbital period", 0.1, 500.0, 0.1, 10.0, "days"),
-    "koi_duration": ("Transit duration", 0.1, 50.0, 0.1, 3.0, "hours"),
-    "koi_depth": ("Transit depth", 1.0, 200000.0, 1.0, 500.0, "ppm"),
-    "koi_prad": ("Planetary radius", 0.1, 50.0, 0.1, 2.3, "Earth radii"),
-    "koi_teq": ("Equilibrium temperature", 100.0, 3000.0, 1.0, 800.0, "K"),
+    "koi_period": ("Orbital period", 0.0, 1100.0, 0.1, 10.0, "days"),
+    "koi_duration": ("Transit duration", 0.0, 140.0, 0.1, 3.0, "hours"),
+    "koi_depth": ("Transit depth", 0.0, 1500000.0, 1.0, 500.0, "ppm"),
+    "koi_prad": ("Planetary radius", 0.0, 200000.0, 0.1, 2.3, "Earth radii"),
+    "koi_teq": ("Equilibrium temperature", 0.0, 15000.0, 1.0, 800.0, "K"),
 }
 
 # Fail fast with a clear message if the pipeline has not been trained yet.

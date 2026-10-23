@@ -4,11 +4,13 @@ Guidance for coding agents working in this repository.
 
 ## What the project is
 
-A Python machine learning pipeline that classifies Kepler-style exoplanet transit candidates as CONFIRMED (1) or FALSE POSITIVE (0). The data is currently synthetic: `scripts/generate_mock_kepler.py` produces it. There is no real Kepler catalogue in the repo yet.
+A Python machine learning pipeline that classifies Kepler-style exoplanet transit candidates as CONFIRMED (1) or FALSE POSITIVE (0). The data is real: `scripts/fetch_nasa_kepler.py` downloads the KOI cumulative table from the NASA Exoplanet Archive TAP service and writes `data/kepler_data.csv`. `scripts/generate_mock_kepler.py` is an offline synthetic generator that writes to `data/mock_kepler_data.csv`, leaving the real file untouched.
 
 ## Layout
 
-- `scripts/generate_mock_kepler.py`: writes `data/kepler_data.csv` (5,000 rows, fixed seed).
+- `scripts/fetch_nasa_kepler.py`: downloads the KOI table (requires network), keeps CONFIRMED / FALSE POSITIVE rows, maps them to `label` (1 / 0), and writes `data/kepler_data.csv` (7,587 rows).
+- `scripts/generate_mock_kepler.py`: offline synthetic generator (5,000 rows, fixed seed), writes `data/mock_kepler_data.csv`.
+- `app.py`: Gradio UI at the root; loads `models/` artifacts.
 - `src/data_loader.py`: `load_raw()` returns unscaled `(X, y)`. `build_preprocessor()` returns an unfitted sklearn Pipeline (median impute, then StandardScaler). `load_kepler_data()` fits on the full dataset; it is for exploration only, not for training.
 - `src/train.py`: stratified 80/20 split, preprocessor fitted on train only, RandomForest (300 trees), prints a classification report and ROC-AUC, saves artifacts.
 - `data/`: input CSV. `models/`: joblib artifacts (`random_forest.joblib`, `preprocessor.joblib`).
@@ -23,7 +25,7 @@ Run from the project root, using the venv interpreter on Windows:
 
 ```
 .venv\Scripts\python.exe -m pip install -r requirements.txt
-.venv\Scripts\python.exe scripts\generate_mock_kepler.py   # regenerates data/kepler_data.csv
+.venv\Scripts\python.exe scripts\generate_mock_kepler.py   # regenerates data/mock_kepler_data.csv
 .venv\Scripts\python.exe src\data_loader.py                # prints scaled feature summary
 .venv\Scripts\python.exe src\train.py                      # trains, evaluates, writes models/
 ```
@@ -39,7 +41,8 @@ Run from the project root, using the venv interpreter on Windows:
 - Random seeds are fixed (42). Keep them fixed so results are reproducible.
 - Scripts are plain Python with docstrings and type hints; there is no linter or formatter configured. Match the existing style.
 - The repo has no `.gitignore` and no commits yet. Don't commit `.venv/` or `models/`; add a `.gitignore` first if committing.
-- Metrics on the synthetic data (ROC-AUC about 0.80) reflect the generator, not real Kepler performance. Don't tune the model to chase that number without saying so.
+- Current metrics on the real KOI test split are ROC-AUC about 0.958 and accuracy about 0.90. Don't tune the model without reporting the before and after numbers.
+- The KOI table has about 3% missing values in koi_depth, koi_prad and koi_teq; the median imputer handles them. Don't drop those rows.
 - Before changing files, check `git status`; the workspace was not yet under version control at the time of writing.
 
 ## Working on this project

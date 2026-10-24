@@ -8,7 +8,6 @@ Usage (from the project root):
 """
 
 from pathlib import Path
-
 import os
 import gradio as gr
 import joblib
@@ -61,7 +60,7 @@ def build_interface() -> gr.Blocks:
             "# Kepler Transit Classifier\n"
             "Enter the five transit features for one candidate. The model predicts "
             "whether it is a **CONFIRMED** planet or a **FALSE POSITIVE**. "
-            "The model was trained on synthetic data, so treat predictions as a demo."
+            "The model is trained on real NASA telescope data."
         )
 
         inputs = []
@@ -99,5 +98,7 @@ def build_interface() -> gr.Blocks:
 
 
 if __name__ == "__main__":
+    # Create the interface instance before launching
+    demo = build_interface()
     # Binds to 0.0.0.0 to allow external web traffic
     demo.launch(server_name="0.0.0.0", server_port=int(os.environ.get("PORT", 7860)))

@@ -9,6 +9,7 @@ Usage (from the project root):
 
 from pathlib import Path
 
+import os
 import gradio as gr
 import joblib
 import pandas as pd
@@ -98,4 +99,5 @@ def build_interface() -> gr.Blocks:
 
 
 if __name__ == "__main__":
-    build_interface().launch()
+    # Binds to 0.0.0.0 to allow external web traffic
+    demo.launch(server_name="0.0.0.0", server_port=int(os.environ.get("PORT", 7860)))
